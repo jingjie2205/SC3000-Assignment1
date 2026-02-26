@@ -16,10 +16,12 @@ class PolicyIteration:
             # Loop through all states
             for s in self.env.get_states():
                 # Skip if state is terminal or block
-                if s == self.env.goal: 
+                if s == self.env.goal:
+                    # For visualization purposes
                     self.policy[s] = '*'
                     continue    
                 elif s in self.env.blocks:
+                    # For visualization purposes
                     self.policy[s] = '■'
                     continue
 

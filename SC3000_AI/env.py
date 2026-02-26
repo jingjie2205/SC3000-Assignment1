@@ -13,6 +13,7 @@ class GridWorld:
     def get_states(self):
         return [ (r,c) for r in range(self.height) for c in range(self.width) ]
 
+    # Deterministic Transition - 100% take action
     def transition (self, state, action):
         # Terminal State
         if state == self.goal:
