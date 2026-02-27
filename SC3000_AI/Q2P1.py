@@ -15,5 +15,5 @@ vi_agent.solve()
 pi_agent.solve()
 
 plot_rl_comparison(vi_agent.V, vi_agent.policy, pi_agent.V, pi_agent.policy)
-# print(vi_agent.V)
-# print(pi_agent.V)
+# print(vi_agent.policy)
+# print(pi_agent.policy)

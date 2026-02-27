@@ -6,7 +6,7 @@ class monte_carlo:
     def __init__(self, env):
         self.env = env
         self.epsilon = 0.1
-        self.episodes = 40000 # Num of Episodes to run
+        self.episodes = 10000 # Num of Episodes to run
         self.gamma = 0.9
 
         self.V = np.zeros((env.height , env.width))
@@ -27,24 +27,31 @@ class monte_carlo:
         # Explore randomly
         if np.random.random() < self.epsilon:
             return random.choice(self.env.actions)
-        # Return highest Q value at current state
+        # Explore highest Q value at current state
         else:
             q_values = [self.Q[ (state, action) ] for action in self.env.actions]
             return self.env.actions[np.argmax(q_values)]
+
+        ''' 
+
+        np.argmax(q_values) always pick index 0 if q_values are all equal 
+        might need to randomise action if q_value are equal
+
+        '''
 
     def generate_episode(self):
         # Random policy
         episode = []
         # Initial state of agent ( Bottom Right )
-        state = (4, 0)
+        state = self.env.initial_state
         
         while state != self.env.goal:
-            # Choose a random action
+            # Choose an epsilon greedy action
             action = self.epsilon_greedy(state)
             # Store transition values
             reward, next_s = self.env.transition(state, action)
 
-            # Appeend into policy
+            # Append into policy
             episode.append((state, action, reward))
             # Move to next state
             state = next_s
@@ -58,11 +65,11 @@ class monte_carlo:
             visited = set()
 
             # Generate an episode (state, action, reward)
-            random_policy = self.generate_episode()
+            policy = self.generate_episode()
 
             # Loop backwards
-            for i in reversed(range(len(random_policy))):
-                state, action, reward = random_policy[i]
+            for i in reversed(range(len(policy))):
+                state, action, reward = policy[i]
                 G = self.gamma * G + reward
 
                 if ( state, action ) not in visited:
@@ -84,8 +91,6 @@ class monte_carlo:
             q_values = [self.Q[(state, a)] for a in self.env.actions]
             best_action = np.argmax(q_values)
             self.policy[state] = self.env.action_names[best_action]
-
-    # def solve(self):
 
             
 env = GridWorld()
