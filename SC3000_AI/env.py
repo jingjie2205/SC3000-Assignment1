@@ -3,6 +3,7 @@ class GridWorld:
         self.height = 5
         self.width = 5
         self.goal = (0, 4)
+        self.initial_state = (4, 0)
         self.blocks = [(2, 1), (2, 3)]
         self.actions = [(-1, 0), (1, 0), (0, -1), (0, 1)] # Up, Down, Left, Right
         self.action_names = ["↑", "↓", "←", "→"]
